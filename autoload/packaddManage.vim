@@ -1,17 +1,3 @@
-function! packaddManage#init() abort
-  let s:install_start_path = ''
-  let s:install_opt_path = ''
-  let s:plugins = []
-  if has('nvim')
-    let s:install_start_path = $HOME . '/.config/nvim/pack/packaddManage/start/'
-    call mkdir()
-  elseif exists('*mkdir')
-    let s:install_start_path = $HOME . '/.vim/pack/packaddManage/start/'
-    let s:install_opt_path = $HOME . '/.vim/pack/packaddManage/opt/'
-    call mkdir(s:install_start_path, 'p', 0700)
-    call mkdir(s:install_opt_path, 'p', 0700)
-  endif
-endfunction
 " Install Plugins in Start
 
 function! packaddManage#addStart(pluginname, ...) abort
@@ -55,6 +41,3 @@ function! packaddManage#UpdateOpt(timer)
   call job_start(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
   let s:idx += 1
 endfunction
-
-command! -nargs=+ -bar StartPlug call packaddManage#addStart(<args>)
-command! -nargs=+ -bar OptPlug call packaddManage#addOpt(<args>)
