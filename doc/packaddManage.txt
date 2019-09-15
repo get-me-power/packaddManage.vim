@@ -1,0 +1,12 @@
+*packaddManage.txt*
+
+version: 0.1
+Author: IK
+License: MIT license
+
+================================================
+CONTEXTS
+
+Introduction
+Usage
+Install
