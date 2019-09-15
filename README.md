@@ -55,3 +55,5 @@ OptPlug 'mattn/vim-starwars'
 - [ ] Added plug-in update function
 
 - [ ] Add plug-in deletion function
+
+[![Build Status](https://travis-ci.org/kazukazuinaina/packaddManage.vim.svg?branch=CI)](https://travis-ci.org/kazukazuinaina/packaddManage.vim)
