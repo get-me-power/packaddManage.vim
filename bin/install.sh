@@ -1,5 +1,4 @@
 INSTALL_DIR="$HOME/.vim/pack/packaddManage/start/packaddManage.vim"
-echo "sss"
 # make plugin dir and fetch dein
 if ! [ -e "$INSTALL_DIR" ]; then
   echo "Begin Install..."
