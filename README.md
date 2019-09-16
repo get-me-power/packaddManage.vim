@@ -36,6 +36,8 @@ packadd packaddManage.vim
 
 call packaddManage#init()
 
+StartPlug 'kazukazuinaina/packaddManage.vim'
+
 " Quick load 
 StartPlug 'kazukazuinaina/Weather.vim'
 
