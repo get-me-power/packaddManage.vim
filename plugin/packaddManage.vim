@@ -9,7 +9,8 @@ set cpo&vim
 function! packaddManage#init() abort
   let s:install_start_path = ''
   let s:install_opt_path = ''
-  let s:plugins = []
+  let s:start_plugins = []
+  let s:opt_plugins = []
   if has('nvim')
     let s:install_start_path = $HOME . '/.config/nvim/pack/packaddManage/start/'
     call mkdir()
@@ -33,8 +34,7 @@ function! packaddManage#addStart(pluginname, ...) abort
     echo system(printf('git clone %s %s', plugin_url, dir))
     echo 'Finish'
   endif
-  call add(s:plugins, split(plugin_url, '/')[-1])
-  echo s:plugins
+  call add(s:start_plugins, split(plugin_url, '/')[-1])
 endfunction
 
 " Install Plugins in Opt
@@ -49,22 +49,29 @@ function! packaddManage#addOpt(pluginname, ...) abort
     echo system(printf('git clone %s %s', plugin_url, dir))
     echo 'Finish'
   endif
-  call add(s:plugins, split(plugin_url, '/')[-1])
+  call add(s:opt_plugins, split(plugin_url, '/')[-1])
 endfunction
 
 function! packaddManage#Update() abort
   split `='[update plugins]'` | setlocal buftype=nofile
   let s:idx = 0
-  call timer_start(100, 'packaddManage#UpdateOpt', {'repeat': len(s:plugins)})
+  call timer_start(100, 'packaddManage#UpdateHundleStart', {'repeat': len(s:plugins)})
+  call timer_start(100, 'packaddManage#UpdateHundleOpt', {'repeat': len(s:plugins)})
 endfunction
 
-function! packaddManage#UpdateOpt(timer)
+function! packaddManage#UpdateHundleOpt(timer)
   let dst = expand(s:install_opt_path . split(s:plugins[s:idx], '/')[-1])
   let cmd = printf('git -C %s pull --ff --ff-only', dst)
   call job_start(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
   let s:idx += 1
 endfunction
 
+function! packaddManage#UpdateHundleOpt(timer)
+  let dst = expand(s:install_start_path . split(s:plugins[s:idx], '/')[-1])
+  let cmd = printf('git -C %s pull --ff --ff-only', dst)
+  call job_start(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
+  let s:idx += 1
+endfunction
 
 command! -nargs=+ -bar StartPlug call packaddManage#addStart(<args>)
 command! -nargs=+ -bar OptPlug call packaddManage#addOpt(<args>)
